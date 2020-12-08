@@ -1,0 +1,64 @@
+blueprint:
+  name: Xiaomi/Aqara button actions
+  description: Add actions easily to the Aqara wireless buttons (WXKG01LM or WXKG11LM). 
+  domain: automation
+  input:
+    wireless_button:
+      name: Wireless button
+      description: Aqara button to use
+      selector:
+        entity:
+          integration: "xiaomi_aqara"
+          domain: "binary_sensor"
+
+    button_short_press_action:
+      name: Short press
+      description: Action to run on short press
+      default: []
+      selector:
+        action:
+    button_double_press_action:
+      name: Double press
+      description: Action to run on double press
+      default: []
+      selector:
+        action:
+    button_long_press_action:
+      name: Long press
+      description: Action to run on long press
+      default: []
+      selector:
+        action:
+    button_hold_action:
+      name: Hold button
+      description: Action to run on while the button pressed
+      default: []
+      selector:
+        action:
+
+mode: single
+max_exceeded: silent
+
+trigger:
+  - platform: event
+    event_type: xiaomi_aqara.click
+    event_data:
+      entity_id: !input wireless_button
+
+action:
+  - variables:
+      click_type: "{{ trigger.event.data.click_type }}"
+
+  - choose:
+      - conditions:
+          - "{{ click_type == 'single' }}"
+        sequence: !input button_short_press_action
+      - conditions:
+          - "{{ click_type == 'double' }}"
+        sequence: !input button_double_press_action
+      - conditions:
+          - "{{ click_type == 'long_click_press' }}"
+        sequence: !input button_long_press_action
+      - conditions:
+          - "{{ click_type == 'hold' }}"
+        sequence: !input button_hold_action

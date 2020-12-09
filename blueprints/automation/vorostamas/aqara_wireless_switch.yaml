@@ -1,0 +1,99 @@
+blueprint:
+  name: Xiaomi/Aqara switch actions
+  description: |
+    Add actions easily to the Aqara wireless switches.
+    (WXKG03LM, WXKG02LM and WXKG02LM 2nd gen)
+  domain: automation
+  input:
+    wireless_switch:
+      name: Wireless switch
+      description: Aqara switch to use
+      selector:
+        entity:
+          integration: "xiaomi_aqara"
+          domain: "binary_sensor"
+
+    switch_single_press_action:
+      name: Single press
+      description: Action to run on single press
+      default: []
+      selector:
+        action:
+
+    switch_both_press_action:
+      name: Both press
+      description: |
+        Action to run on when both sides pressed 
+        (WXKG02LM, WXKG02LM 2nd gen)
+      default: []
+      selector:
+        action:
+
+    switch_double_press_action:
+      name: Double press
+      description: |
+        Action to run on double press
+        (WXKG03LM, WXKG02LM 2nd gen)
+      default: []
+      selector:
+        action:
+
+    switch_long_press_action:
+      name: Long press
+      description: |
+        Action to run on long press 
+        (WXKG03LM, WXKG02LM 2nd gen)
+      default: []
+      selector:
+        action:
+
+    switch_double_both_action:
+      name: Double press both switch
+      description: |
+        Action to run when both switch is double pressed
+        (WXKG02LM 2nd gen)
+      default: []
+      selector:
+        action:
+
+    switch_long_both_action:
+      name: Long press both switch
+      description: |
+        Action to run when both switch is long pressed
+        (WXKG02LM 2nd gen)
+      default: []
+      selector:
+        action:
+
+mode: single
+max_exceeded: silent
+
+trigger:
+  - platform: event
+    event_type: xiaomi_aqara.click
+    event_data:
+      entity_id: !input wireless_switch
+
+action:
+  - variables:
+      click_type: "{{ trigger.event.data.click_type }}"
+
+  - choose:
+      - conditions:
+          - "{{ click_type == 'single' }}"
+        sequence: !input switch_single_press_action
+      - conditions:
+          - "{{ click_type == 'both' }}"
+        sequence: !input switch_both_press_action
+      - conditions:
+          - "{{ click_type == 'double' }}"
+        sequence: !input switch_double_press_action
+      - conditions:
+          - "{{ click_type == 'long_press' }}"
+        sequence: !input switch_long_press_action
+      - conditions:
+          - "{{ click_type == 'double_both' }}"
+        sequence: !input switch_double_both_action
+      - conditions:
+          - "{{ click_type == 'long_both' }}"
+        sequence: !input switch_long_both_action

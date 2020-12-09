@@ -31,7 +31,7 @@ blueprint:
         action:
     button_hold_action:
       name: Hold button
-      description: Action to run on while the button pressed
+      description: Action to run while the button pressed
       default: []
       selector:
         action:

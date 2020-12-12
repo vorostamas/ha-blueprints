@@ -41,8 +41,8 @@ blueprint:
 
     notification_message:
       name: Notification message (Optional)
-      description: 'Default: "<Motion sensor name> detected movement!"'
-      default: "{{ motion_sensor_name }} detected movement"
+      description: 'Default: "{{ motion_sensor_name }} detected movement!"'
+      default: "{{ motion_sensor_name }} detected movement!"
       
     delay:
       name: Delay (Optional)

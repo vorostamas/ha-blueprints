@@ -55,13 +55,6 @@ blueprint:
             unit_of_measurement: seconds
             mode: slider
 
-    extra_action:
-      name: Action (Optional)
-      description: Add one or more sequences of actions
-      default: ""
-      selector:
-        action:
-
 trigger:
   platform: state
   entity_id: !input motion_sensor

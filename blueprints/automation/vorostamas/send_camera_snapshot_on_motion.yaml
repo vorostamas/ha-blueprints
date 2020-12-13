@@ -77,7 +77,7 @@ action:
   - delay: "{{ delay }}"
 
   - service: camera.snapshot
-    entity_id: camera.demo_camera
+    entity_id: !input camera
     data:
       filename: "{{ snapshot_create_file_path }}"
 
